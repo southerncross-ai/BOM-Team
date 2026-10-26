@@ -1,12 +1,10 @@
 # CRAFT Data Processing, Channel Inventory and Data Access
 
-Oct 26, 2026 · @Olivia M
-
 ## 1. Purpose, scope and data source
 
 This document records how CRAFT data is processed, which variables (channels) it contains, and how team members get access to it.
 
-- **D****ata ****Source:** the ACCESS-SY wind dataset, **a high-resolution regional weather forecast model** operated by BoM, the Sydney-domain configuration of the Bureau of Meteorology's convection-allowing ACCESS-C weather prediction system, on a grid of about 1.5 km. It is supplied to the team by the project stakeholder and held on the project JupyterHub.
+- **Data Source:** the ACCESS-SY wind dataset, **a high-resolution regional weather forecast model** operated by BoM, the Sydney-domain configuration of the Bureau of Meteorology's convection-allowing ACCESS-C weather prediction system, on a grid of about 1.5 km. It is supplied to the team by the project stakeholder and held on the project JupyterHub.
 - **Size and coverage:** one NetCDF file of about 139 GB, roughly 26,000 hourly states from September 2020 to May 2024. The data was extracted on Gadi (Australia’s national research supercomputer, run by the National Computational Infrastructure (NCI)) into 4 years of hourly wind maps.
 - **Grid:** each state is 744 x 892 cells, covering the ACCESS-SY domain around Sydney.
 - **Privacy:** the data and anything derived from it are private project data.
@@ -17,7 +15,7 @@ data preprocessing turns the server NetCDF file into sharded parquet, then turns
 
 **Part A: NetCDF to sharded parquet**
 
-1. **Open and check the source.** Open `t``he ne``t``C``D``F`` ``datas``et``a`` nd  `Assert the dimensions are time, lat and lon, the two wind variables exist, latitude is descending and longitude is ascending.
+1. **Open and check the source.** Open the netCDF dataset and Assert the dimensions are time, lat and lon, the two wind variables exist, latitude is descending and longitude is ascending.
 2. **Select the period and crop.** By default the last 365 days of the record (or chosen start and end dates), over the full Sydney domain (latitude -38.0 to -27.97, longitude 144.0 to 156.03). The grid must come out as 744 x 892.
 3. **Find time gaps.** The source keeps genuine missing hours. The notebook splits the record into contiguous one-hour runs and keeps only runs of at least 19 hours (K + H\_STEPS). Nothing is interpolated or windowed across a gap.
 4. **Write sharded parquet and a manifest.** Long format with columns time, lat, lon, `uwnd10m`, `vwnd10m` (float32, snappy). One row group is one hourly frame, 512 frames per shard file. `manifest.json` records each frame's location, the contiguous runs, the times and any frames containing NaN. Output folder: `an_wind_hourly_12mo` (about 35 to 50 GiB expected for 12 months).
