@@ -42,3 +42,27 @@ I learned how to process and align meteorological datasets, evaluate forecasting
 ### Remaining work
 
 Further work includes quantitatively comparing interpolation methods and testing whether they improve downstream forecasting performance.
+
+## Adam
+### My contributions
+
+I was the project manager. I ran the team’s Agile process: I broke the work into product backlog items (PBIs), set milestones, tracked progress against them, and kept the five of us coordinated across the data, model and paper workstreams so parallel work didn’t stall or duplicate. This meant regularly reprioritising the backlog as the project changed, such as when we shifted from local synthetic tests to the native hourly server data, and flagging blockers early so we stayed on schedule.
+
+I also wrote extensive documentation for the CRAFT repository. This included:
+
+the project overview explaining CRAFT’s frame-based design (masked multi-channel weather frames, a CNN for spatial structure, a Transformer for temporal evolution)
+the student contributor table
+the shared notes and ideas scratchpad
+the repository layout covering Paper/, CRAFT/, Docs/ and the gitignored data/ directory
+
+The goal was a single entry point, so contributors could find the paper draft, research guide and experiments runbook without piecing the structure together themselves.
+
+I also reviewed the CRAFT paper in detail. I focused on the architecture (encoder E, latent autoregressive Transformer F, decoder D), the data and evaluation methodology, and how closely the written design matched what we had implemented. I checked the ACCESS-SY data description against the processing pipeline, including the u/v wind channels, the cropped 744 x 892 grid, the chronological 70/15/15 split and train-only normalization.
+
+### What I learned
+
+I learned how to run Agile on a research project, where the scope is less predictable than in typical software work. Experiments take longer than planned, results change priorities, and PBIs and milestones need regular adjustment instead of being fixed once. I also saw how much clear documentation matters when several people work in parallel notebooks.
+
+Reviewing the paper showed me where a design document and a working prototype drift apart. The paper defines five surface channels and a 12-month record, while current runs use u/v wind only and about 5 months of hourly data. I also gained a better understanding of latent nowcasting, error accumulation in autoregressive rollouts, and why persistence and linear baselines are needed to demonstrate real forecasting skill.
+
+
