@@ -24,7 +24,7 @@ The environment is designed to provide you with real research infrastructure, si
 To access your environment, follow these three steps:
 
 **1. Connect to the Network**
-The compute infrastructure sits behind a secure internal network. You must first connect using a **WireGuard VPN**. *(See `Wireguard.md` for instructions).*
+The compute infrastructure sits behind a secure internal network. You must first connect using a **WireGuard VPN**. *(See [WireGuard instructions](Wireguard.md).)*
 
 **2. Verify GitHub Access**
 Authentication is handled via GitHub. Before logging in, ensure you have an active GitHub account and have been added to the project's GitHub team.
@@ -67,6 +67,25 @@ Keep infrastructure notes practical and current. If access steps or machine deta
 
 | File | Description |
 | :--- | :--- |
-| `Wireguard.md` | How to install and connect using the WireGuard VPN. |
-| `BaseSystem.md` | High-level overview of the system and environment design. |
-| `L4Gpu.md` | Details and specific instructions for the NVIDIA L4 GPU environment. |
+| [Wireguard.md](Wireguard.md) | How to install and connect using the WireGuard VPN. |
+| [BaseSystem.md](BaseSystem.md) | High-level overview of the system and environment design. |
+| [L4Gpu.md](L4Gpu.md) | Details and specific instructions for the NVIDIA L4 GPU environment. |
+
+
+## Run the current CRAFT experiment
+
+After obtaining project access, use the
+[CRAFT setup guide](https://github.com/southerncross-ai/Swift/blob/main/SETUP.md)
+and [experiment runbook](https://github.com/southerncross-ai/Swift/blob/main/Docs/model-experiments-runbook.md)
+for the maintained notebook environment and measured runtime settings. The general
+L4 profile above should not be assumed to match the hardware used by the recorded run.
+
+1. Confirm private ACCESS-SY access using the [data workflow index](../data/README.md).
+2. Run the [server data notebook](https://github.com/southerncross-ai/Swift/blob/main/CRAFT/server_data_process.ipynb)
+   through its verification checks.
+3. Run the [server model notebook](https://github.com/southerncross-ai/Swift/blob/main/CRAFT/server_model.ipynb)
+   for training, evaluation, and artifact saving; see the [model workflow index](../models/README.md).
+
+Run from the Swift repository's `CRAFT/` workspace with its project kernel. Check
+actual GPU availability and memory, and use the runbook's recorded settings as the
+starting point for that environment.
